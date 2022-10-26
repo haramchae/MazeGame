@@ -217,15 +217,15 @@ void fireBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBo
 			if (bombPos[i].y - j > 0) {
 				if (mazeMap[bombPos[i].y - j][bombPos[i].x] =='0' &&
 					bombPos[i].y - j != 0)  {
-					if (rand() % 100 < 5) {
+					if (rand() % 100 < 10) {
 						int percent = rand() % 100;
 						if (percent < 40) {
 							mazeMap[bombPos[i].y - j][bombPos[i].x] = '8';
 						}
-						else if (percent < 70) {
+						else if (percent < 80) {
 							mazeMap[bombPos[i].y - j][bombPos[i].x] = '5';
 						}
-						else if (percent < 80) {
+						else if (percent < 95) {
 							mazeMap[bombPos[i].y - j][bombPos[i].x] = '6';
 						}
 						else {
@@ -239,15 +239,15 @@ void fireBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBo
 			}
 			if (bombPos[i].y + j < 19) {
 				if (mazeMap[bombPos[i].y + j][bombPos[i].x] == '0') {
-					if (rand() % 100 < 5) {
+					if (rand() % 100 < 10) {
 						int percent = rand() % 100;
 						if (percent < 40) {
 							mazeMap[bombPos[i].y + j][bombPos[i].x] = '8';
 						}
-						else if (percent < 70) {
+						else if (percent < 80) {
 							mazeMap[bombPos[i].y + j][bombPos[i].x] = '5';
 						}
-						else if (percent < 80) {
+						else if (percent < 95) {
 							mazeMap[bombPos[i].y + j][bombPos[i].x] = '6';
 						}
 						else {
@@ -262,15 +262,15 @@ void fireBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBo
 			}
 			if (bombPos[i].x - j > 0) {
 				if (mazeMap[bombPos[i].y][bombPos[i].x - j] == '0') {
-					if (rand() % 100 < 5) {
+					if (rand() % 100 < 10) {
 						int percent = rand() % 100;
 						if (percent < 40) {
 							mazeMap[bombPos[i].y][bombPos[i].x - j] = '8';
 						}
-						else if (percent < 70) {
+						else if (percent < 80) {
 							mazeMap[bombPos[i].y][bombPos[i].x - j] = '5';
 						}
-						else if (percent < 80) {
+						else if (percent < 95) {
 							mazeMap[bombPos[i].y][bombPos[i].x - j] = '6';
 						}
 						else {
@@ -285,15 +285,15 @@ void fireBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBo
 			}
 			if (bombPos[i].x + j < 19) {
 				if (mazeMap[bombPos[i].y][bombPos[i].x + j] == '0') {
-					if (rand() % 100 < 5) {
+					if (rand() % 100 < 10) {
 						int percent = rand() % 100;
 						if (percent < 40) {
 							mazeMap[bombPos[i].y][bombPos[i].x + j] = '8';
 						}
-						else if (percent < 70) {
+						else if (percent < 80) {
 							mazeMap[bombPos[i].y][bombPos[i].x + j] = '5';
 						}
-						else if (percent < 80) {
+						else if (percent < 95) {
 							mazeMap[bombPos[i].y][bombPos[i].x + j] = '6';
 						}
 						else {
