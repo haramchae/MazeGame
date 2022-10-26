@@ -1,6 +1,7 @@
 #include <iostream>
 #include <conio.h>
 #include "function.h"
+#include <time.h>
 
 using namespace std;
 
@@ -54,6 +55,15 @@ void dpMap(char mazeMap[21][21], PPLAYER player) {
 			else if (mazeMap[i][j] == '3') {
 				cout << "★";
 			}
+			else if (mazeMap[i][j] == '5') {
+				cout << "ⓟ";
+			}
+			else if (mazeMap[i][j] == '6') {
+				cout << "ⓦ";
+			}
+			else if (mazeMap[i][j] == '7') {
+				cout << "ⓣ";
+			}
 		}
 		cout << "\n";
 	}
@@ -85,10 +95,16 @@ void movePlayer(char mazeMap[21][21], PPLAYER player, char cInput) {
 }
 
 void moveUp(char mazeMap[21][21], PPLAYER player) {
-	if (player->location.y - 1 >= 0) {
+	if (player->location.y - 1 > 0) {
 		if (mazeMap[player->location.y - 1][player->location.x] != '0' &&
 			mazeMap[player->location.y - 1][player->location.x] != '4') {
 			--player->location.y;
+		}
+		else if (player->transParency) {
+			--player->location.y;
+		}
+		if (addItem(mazeMap[player->location.y][player->location.x] ,player)) {
+			mazeMap[player->location.y][player->location.x] = '1';
 		}
 	}
 }
@@ -99,14 +115,26 @@ void moveDown(char mazeMap[21][21], PPLAYER player) {
 			mazeMap[player->location.y + 1][player->location.x] != '4') {
 			++player->location.y;
 		}
+		else if (player->transParency) {
+			++player->location.y;
+		}
+		if (addItem(mazeMap[player->location.y][player->location.x], player)) {
+			mazeMap[player->location.y][player->location.x] = '1';
+		}
 	}
 }
 
 void moveLeft(char mazeMap[21][21], PPLAYER player) {
-	if (player->location.x - 1 >= 0) {
+	if (player->location.x - 1 > 0) {
 		if (mazeMap[player->location.y][player->location.x - 1] != '0' &&
 			mazeMap[player->location.y][player->location.x - 1] != '4') {
 			--player->location.x;
+		}
+		else if (player->transParency) {
+			--player->location.x;
+		}
+		if (addItem(mazeMap[player->location.y][player->location.x], player)) {
+			mazeMap[player->location.y][player->location.x] = '1';
 		}
 	}
 }
@@ -117,11 +145,18 @@ void moveRight(char mazeMap[21][21], PPLAYER player) {
 			mazeMap[player->location.y][player->location.x + 1] != '4') {
 			++player->location.x;
 		}
+		else if (player->transParency) {
+			++player->location.x;
+		}
+		if (addItem(mazeMap[player->location.y][player->location.x], player)) {
+			mazeMap[player->location.y][player->location.x] = '1';
+		}
 	}
 }
 
 void createBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBomb) {
 	if (*addedBomb == 5) return;
+	else if (mazeMap[player->location.y][player->location.x] == '0') return;
 	for (int i = 0; i < *addedBomb; i++) {
 		if (player->location.y == bombPos[i].y && player->location.x == bombPos[i].x) return;
 	}
@@ -130,46 +165,137 @@ void createBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* added
 }
 
 void fireBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBomb) {
+	srand((unsigned int)time(0));
+	
 
+	for (int i = 0; i < *addedBomb; i++) {
+		mazeMap[bombPos[i].y][bombPos[i].x] = '1';
+		for (int j = 1; j < player->bombPower+1; j++) {
+			if (bombPos[i].y - j > 0) {
+				if (mazeMap[bombPos[i].y - j][bombPos[i].x] == '0') {
+					if (rand() % 100 < 5) {
+						int percent = rand() % 100;
+						if (percent < 70) {
+							mazeMap[bombPos[i].y - j][bombPos[i].x] = '5';
+						}
+						else if (percent < 80) {
+							mazeMap[bombPos[i].y - j][bombPos[i].x] = '6';
+						}
+						else {
+							mazeMap[bombPos[i].y - j][bombPos[i].x] = '7';
+						}
+					}
+					else {
+						mazeMap[bombPos[i].y - j][bombPos[i].x] = '1';
+					}
+					
+				}
+			}
+			if (bombPos[i].y + j < 19) {
+				if (mazeMap[bombPos[i].y + j][bombPos[i].x] == '0') {
+					if (rand() % 100 < 5) {
+						int percent = rand() % 100;
+						if (percent < 70) {
+							mazeMap[bombPos[i].y + j][bombPos[i].x] = '5';
+						}
+						else if (percent < 80) {
+							mazeMap[bombPos[i].y + j][bombPos[i].x] = '6';
+						}
+						else {
+							mazeMap[bombPos[i].y + j][bombPos[i].x] = '7';
+						}
+					}
+					else {
+						mazeMap[bombPos[i].y + j][bombPos[i].x] = '1';
+					}
+					
+				}
+			}
+			if (bombPos[i].x - j > 0) {
+				if (mazeMap[bombPos[i].y][bombPos[i].x - j] == '0') {
+					if (rand() % 100 < 5) {
+						int percent = rand() % 100;
+						if (percent < 70) {
+							mazeMap[bombPos[i].y][bombPos[i].x - j] = '5';
+						}
+						else if (percent < 80) {
+							mazeMap[bombPos[i].y][bombPos[i].x - j] = '6';
+						}
+						else {
+							mazeMap[bombPos[i].y][bombPos[i].x - j] = '7';
+						}
+					}
+					else {
+						mazeMap[bombPos[i].y][bombPos[i].x - j] = '1';
+					}
+					
+				}
+			}
+			if (bombPos[i].x + j < 19) {
+				if (mazeMap[bombPos[i].y][bombPos[i].x + j] == '0') {
+					if (rand() % 100 < 5) {
+						int percent = rand() % 100;
+						if (percent < 70) {
+							mazeMap[bombPos[i].y][bombPos[i].x + j] = '5';
+						}
+						else if (percent < 80) {
+							mazeMap[bombPos[i].y][bombPos[i].x + j] = '6';
+						}
+						else {
+							mazeMap[bombPos[i].y][bombPos[i].x + j] = '7';
+						}
+					}
+					else {
+						mazeMap[bombPos[i].y][bombPos[i].x + j] = '1';
+					}
+					
+				}
+			}
+		}
+		
+		
+	}
 	if (deathCheck(player, bombPos, addedBomb) == false) {
 		player->location.x = 1;
 		player->location.y = 1;
-	}
-	for (int i = 0; i < *addedBomb; i++) {
-		mazeMap[bombPos[i].y][bombPos[i].x] = '1';
-		if (bombPos[i].y - 1 > 0) {
-			if (mazeMap[bombPos[i].y - 1][bombPos[i].x] == '0') {
-				mazeMap[bombPos[i].y - 1][bombPos[i].x] = '1';
-			}
-		}
-		if (bombPos[i].y + 1 <19) {
-			if (mazeMap[bombPos[i].y + 1][bombPos[i].x] == '0') {
-				mazeMap[bombPos[i].y + 1][bombPos[i].x] = '1';
-			}
-		}
-		if (bombPos[i].x - 1 > 0) {
-			if (mazeMap[bombPos[i].y][bombPos[i].x - 1] == '0') {
-				mazeMap[bombPos[i].y][bombPos[i].x - 1] = '1';
-			}
-		}
-		if (bombPos[i].x + 1 < 19) {
-			if (mazeMap[bombPos[i].y][bombPos[i].x + 1] == '0') {
-				mazeMap[bombPos[i].y][bombPos[i].x + 1] = '1';
-			}
-		}
+		player->bombPower = 1;
+		player->transParency = false;
+		player->wallPush = false;
 	}
 	*addedBomb = 0;
 }
 
 bool deathCheck(PPLAYER player, PPOINT bombPos, int* addedBomb) {
 	for (int i = 0; i < *addedBomb; i++) {
-		if ((player->location.x == bombPos[i].x && player->location.y == bombPos[i].y) ||
-			(player->location.x == bombPos[i].x + 1 && player->location.y == bombPos[i].y) ||
-			(player->location.x == bombPos[i].x - 1 && player->location.y == bombPos[i].y) ||
-			(player->location.x == bombPos[i].x && player->location.y == bombPos[i].y + 1) ||
-			(player->location.x == bombPos[i].x && player->location.y == bombPos[i].y - 1)) {
-			return false;
+		for (int j = 0; j < player->bombPower + 1; j++) {
+			if ((player->location.x == bombPos[i].x && player->location.y == bombPos[i].y) ||
+				(player->location.x == bombPos[i].x + j && player->location.y == bombPos[i].y) ||
+				(player->location.x == bombPos[i].x - j && player->location.y == bombPos[i].y) ||
+				(player->location.x == bombPos[i].x && player->location.y == bombPos[i].y + j) ||
+				(player->location.x == bombPos[i].x && player->location.y == bombPos[i].y - j)) {
+				return false;
+			}
 		}
+		
 	}
 	return true;
+}
+
+bool addItem(char item, PPLAYER player) {
+	if (item == '5') {
+		if (player->bombPower < 4) {
+			player->bombPower++;
+		}
+		return true;
+	}
+	else if (item == '6') {
+		player->wallPush = 1;
+		return true;
+	}
+	else if (item == '7') {
+		player->transParency = 1;
+		return true;
+	}
+
+	return false;
 }

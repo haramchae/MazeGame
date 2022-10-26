@@ -34,6 +34,7 @@ void moveRight(char mazeMap[21][21], PPLAYER player);
 void createBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBomb);
 void fireBomb(char mazeMap[21][21], PPLAYER player, PPOINT bombPos, int* addedBomb);
 bool deathCheck(PPLAYER player, PPOINT bombPos, int* addedBomb);
+bool addItem(char item, PPLAYER player);
 
 #endif // !FUNCTION_H
 
