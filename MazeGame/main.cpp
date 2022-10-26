@@ -12,6 +12,7 @@ using namespace std;
 * 5: Bomb Power item
 * 6: Push item
 * 7: transparency item
+* 8: add bomb count
 */
 
 
@@ -22,6 +23,7 @@ int main()
 
 	PLAYER player = {};
 	player.bombPower = 1;
+	player.bombCount = 1;
 	POINT startPos;
 	POINT endPos;
 	POINT bombPos[bombSize];
@@ -37,14 +39,22 @@ int main()
 			cout << "Congratulation!\n";
 			break;
 		}
-		cout << "bomb power: " << player.bombPower<<"\n";
-		cout << "transparency: ";
+		cout << "Items: " << "\n";
+		cout << "Bomb count: " << player.bombCount << "\n";
+		cout << "Bomb power: " << player.bombPower<<"\n";
+		cout << "Transparency: ";
 		if (player.transParency) cout << "O\n";
 		else cout << "X\n";
 		cout << "Wall push: ";
-		if (player.wallPush) cout << "O\n";
-		else cout << "X\n";
-		cout << "b: bomb n: boom! m: push \n";
+		if (player.wallPush) cout << "O";
+		else cout << "X";
+		cout << "\t Push: ";
+		if (player.push) cout << "ON\n";
+		else cout << "OFF\n";
+
+		cout << "Control: " << "\n";
+		cout << "b: bomb n: boom! \n";
+		cout << "m: push on/off\n";
 		cout << "w: up d: down a: left d: right q: end \n";
 		
 		char cInput = _getch();
@@ -55,6 +65,11 @@ int main()
 		}
 		else if (cInput == 'n' || cInput == 'N') {
 			fireBomb(mazeMap, &player, bombPos, &addedBomb);
+		}
+		else if (cInput == 'm' || cInput == 'M') {
+			if (player.wallPush) {
+				player.push = !player.push;
+			}
 		}
 		movePlayer(mazeMap, &player, cInput);
 	}

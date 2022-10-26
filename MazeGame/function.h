@@ -15,8 +15,10 @@ typedef _PointLocation* PPOINT;
 struct _PlayerModel {
 	_PointLocation location;
 	bool wallPush;
+	bool push;
 	bool transParency;
 	int bombPower;
+	int bombCount;
 };
 
 typedef _PlayerModel PLAYER;
