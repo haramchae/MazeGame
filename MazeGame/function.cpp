@@ -1,56 +1,8 @@
 #include <iostream>
 #include <conio.h>
+#include "function.h"
+
 using namespace std;
-
-struct _PointLocation
-{
-	int x;
-	int y;
-};
-
-typedef _PointLocation POINT;
-typedef _PointLocation* PPOINT;
-
-
-void setMaze(char mazeMap[21][21],PPOINT startPos, PPOINT endPos, PPOINT playerPos);
-void dpMap(char mazeMap[21][21], PPOINT playerPos);
-void movePlayer(char mazeMap[21][21], PPOINT playerPos, char cInput);
-void moveUp(char mazeMap[21][21], PPOINT playerPos);
-void moveDown(char mazeMap[21][21], PPOINT playerPos);
-void moveLeft(char mazeMap[21][21], PPOINT playerPos);
-void moveRight(char mazeMap[21][21], PPOINT playerPos);
-
-
-
-
-int main()
-{
-	POINT startPos;
-	POINT endPos;
-	POINT playerPos;
-
-	char mazeMap[21][21] = {};
-	setMaze(mazeMap, &startPos, &endPos, &playerPos);
-	
-
-
-	while (true) {
-		system("cls");
-		dpMap(mazeMap, &playerPos);
-		if (playerPos.x == endPos.x && playerPos.y == endPos.y) {
-			cout << "Congratulation!\n";
-			break;
-		}
-		cout << "w: up d: down a: left d: right q: end \n";
-		char cInput = _getch();
-
-		if (cInput == 'q' || cInput == 'Q') break;
-		movePlayer(mazeMap, &playerPos, cInput);
-	}
-	
-
-	return 0;
-}
 
 void setMaze(char mazeMap[21][21], PPOINT startPos, PPOINT endPos, PPOINT playerPos) {
 	playerPos->x = 1;
@@ -81,7 +33,7 @@ void setMaze(char mazeMap[21][21], PPOINT startPos, PPOINT endPos, PPOINT player
 	strcpy_s(mazeMap[17], "00010000000011100000");
 	strcpy_s(mazeMap[18], "00010000000000111130");
 	strcpy_s(mazeMap[19], "00000000000000000000");
-	
+
 }
 
 void dpMap(char mazeMap[21][21], PPOINT playerPos) {
@@ -148,7 +100,7 @@ void moveDown(char mazeMap[21][21], PPOINT playerPos) {
 
 void moveLeft(char mazeMap[21][21], PPOINT playerPos) {
 	if (playerPos->x - 1 >= 0) {
-		if (mazeMap[playerPos->y][playerPos->x-1] != '0') {
+		if (mazeMap[playerPos->y][playerPos->x - 1] != '0') {
 			--playerPos->x;
 		}
 	}
@@ -156,7 +108,7 @@ void moveLeft(char mazeMap[21][21], PPOINT playerPos) {
 
 void moveRight(char mazeMap[21][21], PPOINT playerPos) {
 	if (playerPos->x + 1 >= 0) {
-		if (mazeMap[playerPos->y][playerPos->x+1] != '0') {
+		if (mazeMap[playerPos->y][playerPos->x + 1] != '0') {
 			++playerPos->x;
 		}
 	}
